@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/three.js"></script>
+    <script>
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, W / H, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer();
+
+      renderer.setSize(W, H);
+      document.body.appendChild(renderer.domElement);
+
+      const geometry = new THREE.BoxGeometry();
+      const material = new THREE.MeshPhongMaterial({ color: 0x00ff });
+      // MeshBasicMaterial: 조명을 비춰도 그림자가 생기지 않는다 색상 표현만 함.
+      // MeshPhongMaterial: 조명을 비추면 그림자, 반사광도 표현해준다.
+      const cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+
+      camera.position.x = 0;
+      camera.position.y = 1;
+      camera.position.z = 5;
+
+      const axesHelper = new THREE.AxesHelper(10);
+      // scene.add(axesHelper);
+
+      const gridHelper = new THREE.GridHelper(10, 10);
+      // scene.add(gridHelper);
+
+      const spotLight = new THREE.SpotLight(0xffffff); // 조명 추가
+      spotLight.position.set(1, 2.5, 2.5);
+      scene.add(spotLight);
+
+      const spotLightHelper = new THREE.SpotLightHelper(spotLight); // 조명 광원점(확인) 추가
+      // scene.add(spotLightHelper);
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    </script>
+  </body>
+</html>
