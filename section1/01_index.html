@@ -20,12 +20,12 @@
       const H = window.innerHeight;
       const scene = new THREE.Scene(); // 장면(무대)
       const camera = new THREE.PerspectiveCamera(75, W / H, 0.1, 1000); // 카메라
-      // PerspectiveCamera: 3D 장면을 렌더링하는데 가장 널리 쓰이는 투영 모드
+      // PerspectiveCamera: 3D 장면을 렌더링하는데 가장 널리 쓰이는 투영 모드, 일반적인 시선으로 보는 원근카메라
       // args
-      // fov: float — 카메라 아래부터 위까지, 도 단위로 표시되는 수직 시야. 기본값 50
+      // fov: float — 시야각. 기본값 50
       // aspect: float — 카메라 종횡비, 대부분의 경우 화면 너비 / 화면 높이. 기본값 1 (정사각형 화면)
-      // near: float — 기본값 0.1
-      // far: float — 기본값 2000
+      // near: float — 가까운 면, 기본값 0.1
+      // far: float — 멀리있는 면, 기본값 2000
 
       const renderer = new THREE.WebGLRenderer(); // 렌더러
       // WebGLRenderer: WebGL을 사용하여 장면 표시
@@ -34,8 +34,8 @@
 
       const geometry = new THREE.BoxGeometry(); // box geometry 생성
       // BoxGeometry: 직육면체의 기하학 클래스
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // 재질 설정
-      // MeshBasicMaterial: 간단한 음영(플랫 또는 와이어프레임) 방식으로 형상을 그림. 이 재질은 조명의 영향을 받지 않습니다. 색상입히기?
+      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      // MeshBasicMaterial: 색상만 가지고 있는 재질 설정
       const cube = new THREE.Mesh(geometry, material);
       // Mesh: 삼각형 폴리곤 메쉬 기반 개체를 나타내는 클래스
       scene.add(cube); // 무대에 큐브를 올려놓는다.
@@ -48,7 +48,7 @@
         cube.rotation.x += 0.01; // 큐브를 상하좌우 회전시킴
         cube.rotation.y += 0.01;
 
-        renderer.render(scene, camera); // 장면을 찍어냄. 찰칵찰칵
+        renderer.render(scene, camera); // 입력된 장면을 찍어냄. 찰칵찰칵
       }
 
       animate(); // 애니메이션 실행, 카메라 버튼을 누른다고 생각하면 된다.
