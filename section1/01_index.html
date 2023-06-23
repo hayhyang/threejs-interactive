@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/three.js"></script>
+    <script>
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, W / H, 0.1, 1000);
+      // PerspectiveCamera: 3D 장면을 렌더링하는데 가장 널리 쓰이는 투영 모드
+      // args
+      // fov: float — 카메라 아래부터 위까지, 도 단위로 표시되는 수직 시야. 기본값 50
+      // aspect: float — 카메라 종횡비, 대부분의 경우 화면 너비 / 화면 높이. 기본값 1 (정사각형 화면)
+      // near: float — 기본값 0.1
+      // far: float — 기본값 2000
+
+      const renderer = new THREE.WebGLRenderer();
+      // WebGLRenderer: WebGL을 사용하여 장면 표시
+      renderer.setSize(W, H);
+      document.body.appendChild(renderer.domElement);
+
+      const geometry = new THREE.BoxGeometry();
+      // BoxGeometry: 직육면체의 기하학 클래스
+      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      // MeshBasicMaterial: 간단한 음영(플랫 또는 와이어프레임) 방식으로 형상을 그림. 이 재질은 조명의 영향을 받지 않습니다. 색상입히기?
+      const cube = new THREE.Mesh(geometry, material);
+      // Mesh: 삼각형 폴리곤 메쉬 기반 개체를 나타내는 클래스
+      scene.add(cube);
+
+      camera.position.z = 5;
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    </script>
+  </body>
+</html>
