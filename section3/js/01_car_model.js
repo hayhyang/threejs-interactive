@@ -20,6 +20,7 @@ const makeOject = () => {
   const carBottomGeometry = new THREE.BoxGeometry(12, 8, 16);
   const carBottomMaterial = new THREE.MeshPhongMaterial({ color: 0xffd400 });
   const carBottom = new THREE.Mesh(carBottomGeometry, carBottomMaterial);
+  carBottom.position.set(0, 10, 0);
 
   const wheelGeometry = new THREE.CylinderGeometry(5, 5, 3, 10);
   const wheelMeterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
@@ -40,6 +41,7 @@ const makeOject = () => {
   wheelBackGroup.add(wheel3, wheel4);
 
   carGroup.add(carTop, carBottom, wheelFrontGroup, wheelBackGroup);
+  carGroup.position.set(0, 9, 0);
 
   scene.add(carGroup);
 };
