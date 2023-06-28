@@ -24,7 +24,9 @@ const makeOject = () => {
   carBottom.position.set(0, 10, 0);
 
   const wheelGeometry = new THREE.CylinderGeometry(5, 5, 3, 10);
-  const wheelMeterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+  const wheelMeterial = new THREE.MeshPhongMaterial({
+    color: 0x000000,
+  });
   const wheel = new THREE.Mesh(wheelGeometry, wheelMeterial);
   wheel.rotateZ(Math.radians(90));
   wheel.position.set(-12, -4, 8);
@@ -80,6 +82,9 @@ const init = () => {
   scene.add(spotLightHelper);
 
   makeOject();
+
+  window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("keyup", onkeyUp);
 };
 
 let keyCode = 0;
@@ -123,5 +128,3 @@ const stageResize = () => {
 init();
 animate();
 window.addEventListener("resize", stageResize);
-window.addEventListener("keydown", onKeyDown);
-window.addEventListener("keyup", onkeyUp);
