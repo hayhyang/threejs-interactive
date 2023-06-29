@@ -4,7 +4,7 @@ import { OrbitControls } from "https://unpkg.com/three@0.108.0/examples/jsm/cont
 let W = window.innerWidth;
 let H = window.innerHeight;
 
-let scene, camera, renderer;
+let scene, camera, renderer, controls;
 let carGroup, wheelFrontGroup, wheelBackGroup;
 
 const makeOject = () => {
@@ -62,10 +62,12 @@ const init = () => {
   renderer.setClearColor(0x0e2255);
   document.body.appendChild(renderer.domElement);
 
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.enablePan = false;
-  controls.enableZoom = false;
+  controls = new OrbitControls(camera, renderer.domElement);
+  // controls.enableDamping = true; // 부드럽고 움직임
+  // controls.enablePan = false; //
+  // controls.enableZoom = false; // 줌 컨트롤
+  controls.autoRotate = true; // 자동회전
+  controls.autoRotateSpeed = 1; // 회전속도, 기본값 1
 
   const axesHelper = new THREE.AxesHelper(50);
   scene.add(axesHelper);
@@ -130,6 +132,7 @@ const animate = () => {
     }
   }
 
+  controls.update();
   camera.lookAt(scene.position);
   camera.updateProjectionMatrix();
   renderer.render(scene, camera);
