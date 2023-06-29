@@ -22,7 +22,7 @@ export const init = () => {
 
   {
     const imageLoader = new THREE.TextureLoader();
-    imageLoader.load("../../src/images/bg.jpg", (data) => {
+    imageLoader.load("../../src/images/room/bg.jpg", (data) => {
       const material = new THREE.MeshBasicMaterial({
         map: data,
         side: THREE.BackSide,

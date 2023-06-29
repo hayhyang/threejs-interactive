@@ -5,6 +5,7 @@ let W = window.innerWidth;
 let H = window.innerHeight;
 
 let scene, camera, renderer;
+let controls;
 
 export const init = () => {
   scene = new THREE.Scene();
@@ -15,7 +16,7 @@ export const init = () => {
   renderer.setClearColor(0x0e2255);
   document.body.appendChild(renderer.domElement);
 
-  const controls = new OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
   // x, y, z 축
