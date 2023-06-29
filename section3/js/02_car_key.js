@@ -64,6 +64,8 @@ const init = () => {
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
+  controls.enablePan = false;
+  controls.enableZoom = false;
 
   const axesHelper = new THREE.AxesHelper(50);
   scene.add(axesHelper);
@@ -71,15 +73,31 @@ const init = () => {
   const gridHelper = new THREE.GridHelper(70, 20);
   scene.add(gridHelper);
 
-  const hemisphereLight = new THREE.HemisphereLight(0xc0daf5, 0xc0daf5, 0.3);
-  scene.add(hemisphereLight);
+  // 직사광선
+  {
+    const color = 0xffffff;
+    const intensity = 0.5;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(20, 80, 50);
+    light.target.position.set(0, 20, 0); // target: 조명이 어디로 향하는지, 조명의 끝 점
+    scene.add(light);
+    scene.add(light.target);
 
-  const spotLight = new THREE.SpotLight(0xffffff);
-  spotLight.position.set(60, 60, 90);
-  scene.add(spotLight);
+    // const helper = new THREE.DirectionalLightHelper(light);
+    // scene.add(helper);
+  }
 
-  const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-  scene.add(spotLightHelper);
+  {
+    const color = 0xffffff;
+    const intensity = 1;
+    const light = new THREE.SpotLight(color, intensity);
+    light.position.set(20, 40, 0);
+    scene.add(light);
+    scene.add(light.target);
+
+    // const helper = new THREE.SpotLightHelper(light);
+    // scene.add(helper);
+  }
 
   makeOject();
 
