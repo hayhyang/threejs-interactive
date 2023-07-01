@@ -5,8 +5,12 @@ let W = window.innerWidth;
 let H = window.innerHeight;
 let ASPECT = W / H;
 
-let scene, camera, renderer;
-let earth, moon;
+let scene, camera, renderer, controls;
+let earth, moon, cloud;
+
+Math.radians = (degrees) => {
+  return (degrees * Math.PI) / 180;
+};
 
 const init = () => {
   scene = new THREE.Scene();
@@ -18,8 +22,14 @@ const init = () => {
   renderer.setClearColor(0x000000);
   document.body.appendChild(renderer.domElement);
 
-  const controls = new OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.minDistance = 200;
+  controls.maxDistance = 500;
+  controls.minPolarAngle = Math.radians(40);
+  controls.minPolarAngle = Math.radians(120);
   controls.enableDamping = true;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.05;
 
   const axesHelper = new THREE.AxesHelper(120);
   scene.add(axesHelper);
@@ -44,7 +54,7 @@ const init = () => {
   // 지구만들기
 
   const earthMap = new THREE.TextureLoader().load(
-    "../../src/images/earth/earth.jpg"
+    "../../src/images/earth/Albedo.jpg"
   );
   const earthGeometry = new THREE.SphereGeometry(80, 32, 32);
   const earthMaterial = new THREE.MeshBasicMaterial({
@@ -57,6 +67,19 @@ const init = () => {
   earth.add(earthGridHelper);
 
   scene.add(earth);
+
+  // 구름
+  const cloudMap = new THREE.TextureLoader().load(
+    "../../src/images/earth/clouds.png"
+  );
+  const cloudGeometry = new THREE.SphereGeometry(82, 32, 32);
+  const cloudMaterial = new THREE.MeshBasicMaterial({
+    map: cloudMap,
+    transparent: true,
+    opacity: 0.6,
+  });
+  cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+  earth.add(cloud);
 
   // 달 만들기
   const moonMap = new THREE.TextureLoader().load(
@@ -71,6 +94,11 @@ const init = () => {
   moon.position.set(120, 0, 80);
 
   earth.add(moon);
+
+  const light = new THREE.HemisphereLight(0x000000, 0x080820, 1.5);
+  light.position.set(100, 100, 0);
+  const hemisphereLightHelper = new THREE.HemisphereLightHelper(light, 15);
+  scene.add(light, hemisphereLightHelper);
 };
 
 let time = 0;
@@ -78,12 +106,14 @@ const d = 120;
 
 const animate = () => {
   earth.rotation.y += 0.00005;
+  cloud.rotation.y += 0.00003;
   moon.rotation.y += 0.00005;
 
   time += 0.005;
   moon.position.x = Math.cos(time) * d;
   moon.position.z = Math.sin(time) * d;
 
+  controls.update();
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 };
